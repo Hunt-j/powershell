@@ -57,7 +57,7 @@ Invoke-Command -Session $s {IF($remove? -eq "y") {
     $removeadmin= Read-Host "Username"
     Echo ""
         IF($admindouble -match "$removeadmin"){
-               Remove-LocalGroupMember -Group Administrators -Member "plymouth\$removeadmin"
+               Remove-LocalGroupMember -Group Administrators -Member "DOMAIN\$removeadmin"
                (Get-LocalGroupMember -Group Administrators).name
                Echo ""
                Echo "Admin Removed"
