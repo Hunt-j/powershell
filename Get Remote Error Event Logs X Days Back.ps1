@@ -30,13 +30,13 @@ echo "Start Date: $begin"
 echo "End Date: $end" 
 
 #Couple IFs that let let's you overwrite and alreayd existing CSV
-IF(test-path -Path "C:\users\hjarvis\desktop\$logname.csv"){
+IF(test-path -Path "C:\users\user\desktop\$logname.csv"){
     $overwrite= Read-host "That file path already exists, would you like to overwrite (Y or N)?"
         
         IF($overwrite -eq "Y"){
             
-            remove-item "C:\users\hjarvis\desktop\$logname.csv"
-            get-eventlog -ComputerName $computer -LogName $logtype -EntryType $Entrytype -After $begin -before $end | export-csv -Path "C:\users\hjarvis\desktop\$logname.csv"
+            remove-item "C:\users\user\desktop\$logname.csv"
+            get-eventlog -ComputerName $computer -LogName $logtype -EntryType $Entrytype -After $begin -before $end | export-csv -Path "C:\users\user\desktop\$logname.csv"
             
                 }ElseIF ($overwrite -eq "N"){
 
@@ -51,5 +51,5 @@ IF(test-path -Path "C:\users\hjarvis\desktop\$logname.csv"){
                             Exit
                             }  
     }Else{
-    get-eventlog -ComputerName $computer -LogName $logtype -EntryType $entrytype -After $begin -before $end | export-csv -Path "C:\users\hjarvis\desktop\$logname.csv"
+    get-eventlog -ComputerName $computer -LogName $logtype -EntryType $entrytype -After $begin -before $end | export-csv -Path "C:\users\user\desktop\$logname.csv"
     }
