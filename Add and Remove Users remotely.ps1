@@ -2,7 +2,7 @@
 $computername= Read-host "Computer Name"
 Echo ""
 
-$s= New-PSSession -ComputerName $computername -Credential plymouth\adm-hjarvis
+$s= New-PSSession -ComputerName $computername -Credential "DOMAIN\USER"
 Echo "New Admin"
 Invoke-Command -Session $s {$newadmin= Read-Host "Username"}
 Echo ""
@@ -17,7 +17,7 @@ Echo ""
           Echo ""
         }ELSE{ 
             Echo ""
-            Add-LocalGroupMember -Group Administrators -Member "plymouth\$newadmin"
+            Add-LocalGroupMember -Group Administrators -Member "DOMAIN\$newadmin"
             echo ""
             (Get-LocalGroupMember -Group Administrators).name
         }}
@@ -28,7 +28,7 @@ IF($remove? -eq "y") {
     Echo "Admin to Remove"
     Invoke-Command -Session $s {$removeadmin= Read-Host "Username:"}
     Echo ""
-    Invoke-Command -session $s {Remove-LocalGroupMember -Group Administrators -Member "plymouth\$removeadmin"}
+    Invoke-Command -session $s {Remove-LocalGroupMember -Group Administrators -Member "DOMAIN\$removeadmin"}
     Invoke-Command -Session $s {(Get-LocalGroupMember -Group Administrators).name}
  
     } Else {
