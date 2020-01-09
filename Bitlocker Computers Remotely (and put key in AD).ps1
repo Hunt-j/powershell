@@ -1,6 +1,6 @@
 ﻿$computer= Read-host "Computer Name"
 
-$S= New-PSSession -ComputerName $computer -Credential "PLYMOUTH\adm-hjarvis"
+$S= New-PSSession -ComputerName $computer -Credential "DOMAIN\USER"
 
 Invoke-command -Session $s {$BIT=Get-BitLockerVolume | select-object -Property VolumeStatus}
 Invoke-command -Session $s {IF($BIT -match "FullyDecrypted"){
