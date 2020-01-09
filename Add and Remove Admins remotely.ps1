@@ -16,7 +16,7 @@ Echo ""
 IF($Computercheck -match $Computername){
 
 #Creates a remote session to call back to.
-$s= New-PSSession -ComputerName $computername -Credential "PLYMOUTH\adm-hjarvis"
+$s= New-PSSession -ComputerName $computername -Credential "DOMAIN\USER"
 
 #Has you enter in a username that will be the new admin on the remote PC.
 Echo "New Admin"
@@ -38,7 +38,7 @@ Echo ""
           Echo ""
         }ELSE{ 
             Echo ""
-            Add-LocalGroupMember -Group Administrators -Member "plymouth\$newadmin"
+            Add-LocalGroupMember -Group Administrators -Member "DOMAIN\$newadmin"
             Echo ""
             (Get-LocalGroupMember -Group Administrators).name
             Echo ""
