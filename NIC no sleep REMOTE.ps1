@@ -2,7 +2,7 @@
 
 
 
-$S = new-pssession -ComputerName "$computer" -Credential "Plymouth\adm-hjarvis"
+$S = new-pssession -ComputerName "$computer" -Credential "DOMAIN\USER"
 
 
 
