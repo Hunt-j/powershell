@@ -1,0 +1,151 @@
+<#
+    .SYNOPSIS
+        Make one to three domain user an admin on a remote computer
+
+    .DESCRIPTION
+        Select a computer, then enter a domain user's username to make them an administrator on that computer. After adding one you are then asked if you'd like to add more.
+        
+    .FUNCTIONALITY
+        
+    .NOTES
+            AUTHOR: Hunter Jarvis
+            EMAIL: hjarvis@plymouth.edu
+#>
+
+
+#Has you enter in the computer,user, and domain information you want and keeps it.
+$Computername= Read-host "Computer Name"
+$domain= Read-host "Domain"
+$username= Read-host "Your user name"
+
+#This is the puts that computer name against AD"
+$Computercheck= Get-ADComputer -Filter 'Name -like $Computername' 
+Echo ""
+
+#This IF just let's you know (without red) if that is actually a computer in AD or not.
+IF($Computercheck -match $Computername){
+
+#Creates a remote session to call back to.
+    $s= New-PSSession -ComputerName $computername -Credential "$domain\$username"
+
+#Show you the current admins on the machine first.
+    Invoke-Command -Session $s {
+        Echo "Here are the current admins on this machine"
+        (Get-LocalGroupMember -Group Administrators).name
+        Echo ""
+#Asks if you want to add an admin.
+        $add1= Read-host "Add an admin (Y or N)?"
+        IF($add1 -eq "y"){
+            $newadmin= Read-Host "New admin username" 
+            Echo ""
+
+#grabs the current admins and checks if the one you're adding is already an admin. Adds that user to admins if not already there.
+            $admindouble= Get-LocalGroupMember -Group Administrators | Select-Object -Property name
+            IF($admindouble -match "$newadmin"){
+
+#Lot's of echo spacing to make it easier to look at. 
+                Echo ""
+                Echo "User is already and Admin on this computer" 
+                Echo ""
+                Echo "Current Admins"
+                (Get-LocalGroupMember -Group Administrators).name 
+                Echo ""
+                }ELSE{ 
+                    Echo ""
+                    Add-LocalGroupMember -Group Administrators -Member "$domain\$newadmin"
+                    Echo ""
+                    (Get-LocalGroupMember -Group Administrators).name
+                    Echo ""
+                    Echo "Added User"
+                    Echo "Well Done!"
+                }
+            
+        }ELSEif($add1 -eq "n"){
+            Echo "Exiting session"
+            Exit
+       
+        }ELSE{
+            Echo " That's not a Y or an N, c'mon man follow the prompts."
+        }
+        
+       
+#Repeats so you can add more admins if desired.   
+        (Get-LocalGroupMember -Group Administrators).name
+        Echo ""
+        $add2= Read-host "Add another admin (Y or N)?"
+        IF($add2 -eq "y"){
+            $newadmin2= Read-Host "New admin username" 
+            Echo ""
+
+#grabs the current admins and checks if the one you're adding is already an admin. Adds that user to admins if not already there.
+            $admindouble= Get-LocalGroupMember -Group Administrators | Select-Object -Property name
+            IF($admindouble -match "$newadmin2"){
+
+#Lot's of echo spacing to make it easier to look at. 
+                Echo ""
+                Echo "User is already and Admin on this computer" 
+                Echo ""
+                Echo "Current Admins"
+                (Get-LocalGroupMember -Group Administrators).name 
+                Echo ""
+                }ELSE{ 
+                    Echo ""
+                    Add-LocalGroupMember -Group Administrators -Member "$domain\$newadmin2"
+                    Echo ""
+                    (Get-LocalGroupMember -Group Administrators).name
+                    Echo ""
+                    Echo "Added User"
+                    Echo "Well Done!"
+                }
+            
+        }ELSEif($add2 -eq "n"){
+            Echo "Exiting session"
+            Exit
+        
+        }Else{
+            Echo " That's not a Y or an N, c'mon man follow the prompts."
+        }
+            
+
+#Repeats so you can add more admins if desired.   
+        (Get-LocalGroupMember -Group Administrators).name
+        Echo ""
+        $add3= Read-host "Add another admin (Y or N)?"
+        IF($add3 -eq "y"){
+            $newadmin3= Read-Host "New admin username" 
+            Echo ""
+
+#grabs the current admins and checks if the one you're adding is already an admin. Adds that user to admins if not already there.
+            $admindouble= Get-LocalGroupMember -Group Administrators | Select-Object -Property name
+            IF($admindouble -match "$newadmin3"){
+
+#Lot's of echo spacing to make it easier to look at. 
+                Echo ""
+                Echo "User is already and Admin on this computer" 
+                Echo ""
+                Echo "Current Admins"
+                (Get-LocalGroupMember -Group Administrators).name 
+                Echo ""
+                }ELSE{ 
+                    Echo ""
+                    Add-LocalGroupMember -Group Administrators -Member "$domain\$newadmin3"
+                    Echo ""
+                    (Get-LocalGroupMember -Group Administrators).name
+                    Echo ""
+                    Echo "Added User"
+                    Echo "Well Done!"
+                }
+            
+        }ELSEif($add3 -eq "n"){
+            Echo "Exiting session"
+            Exit
+        
+        }ELSE{
+            Echo " That's not a Y or an N, c'mon man follow the prompts."
+            }
+    }   
+    }ELSE{
+    Echo "That computer name doesn't exist, try again."
+    
+}
+
