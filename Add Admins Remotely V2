@@ -3,7 +3,8 @@
         Make one to three domain user an admin on a remote computer
 
     .DESCRIPTION
-        Select a computer, then enter a domain user's username to make them an administrator on that computer. After adding one you are then asked if you'd like to add more.
+        Select a computer, then enter a domain user's username to make them an administrator on that computer. 
+        After adding one you are then asked if you'd like to add more.
         
     .FUNCTIONALITY
         
